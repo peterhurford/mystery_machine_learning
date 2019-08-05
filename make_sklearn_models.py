@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
-import lightgbm as lgb
 
 from collections import defaultdict
 from datetime import datetime
 from pprint import pprint
+from joblib import dump, load
 
 from sklearn.metrics import roc_auc_score, confusion_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -128,67 +128,5 @@ if HOLDOUT:
                                 all_test_preds['prediction'],
                                 labels=CHARACTERS)
     print(pd.DataFrame(conf_mat, columns=CHARACTERS, index=CHARACTERS))
-import pdb
-pdb.set_trace()
-
-
-atrp2 = all_train_preds.copy()
-atrp2['line_length'] = atrp2['line'].apply(lambda l: len(l.split(' ')))
-atrp2.drop(['probability', 'prediction', 'line'], axis=1, inplace=True)
-
-if HOLDOUT:
-    atep2 = all_test_preds.copy()
-    atep2['line_length'] = atep2['line'].apply(lambda l: len(l.split(' ')))
-    atep2.drop(['probability', 'prediction', 'line'], axis=1, inplace=True)
-
-
-for character in CHARACTERS:
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
-    fold_splits = kf.split(atrp2)
-    cv_scores = []
-    character_train_preds = np.zeros(atrp2.shape[0])
-    character_test_preds = 0
-    i = 1
-    print_step('{} model...'.format(character))
-    for dev_index, val_index in fold_splits:
-        dev_X, val_X = (atrp2.drop('character', axis=1).values[dev_index],
-                       atrp2.drop('character', axis=1).values[val_index])
-        dev_y, val_y = ((atrp2['character'] == character).values[dev_index].astype(int),
-                        (atrp2['character'] == character).values[val_index].astype(int))
-        d_train = lgb.Dataset(dev_X, label=dev_y)
-        d_valid = lgb.Dataset(val_X, label=val_y)
-        watchlist = [d_train, d_valid]
-        params = {'learning_rate': 0.01,
-                  'application': 'binary',
-                  'max_depth': 9,
-                  'num_leaves': 15,
-                  'verbosity': -1,
-                  'metric': 'rmse',
-                  'data_random_seed': 4,
-                  'bagging_fraction': 0.8,
-                  'feature_fraction': 0.9,
-                  'nthread': 4,
-                  'lambda_l1': 1,
-                  'lambda_l2': 1}
-        print('Train Fold {}'.format(i))
-        model = lgb.train(params,
-                          train_set=d_train,
-                          num_boost_round=200,
-                          valid_sets=watchlist,
-                          verbose_eval=50)
-        val_preds = model.predict(val_X)
-        character_train_preds[val_index] = val_preds
-        cv_scores.append(roc_auc_score(val_y, val_preds))
-        if HOLDOUT:
-            test_preds = model.predict(atep2.drop('character', axis=1))
-            character_test_preds = character_test_preds + test_preds
-        i += 1
-    print_step('...{} AUC: {}'.format(character, np.mean(cv_scores)))
-    all_train_preds[character] = character_train_preds
-    models[character] = model
-    if HOLDOUT:
-        character_test_preds /= 5
-        all_test_preds[character] = character_test_preds
-
 import pdb
 pdb.set_trace()
