@@ -3,8 +3,9 @@ import re
 
 from collections import defaultdict
 
+from utils import CHARACTERS
 
-CHARACTERS = ['Shaggy Rogers', 'Scooby-Doo', 'Fred Jones', 'Daphne Blake', 'Velma Dinkley']
+
 statements = defaultdict(lambda: [])
 
 
