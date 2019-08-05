@@ -11,9 +11,10 @@ projects = defaultdict(lambda: '')
 
 for character in CHARACTERS:
     print('Building {} model...'.format(character))
-    lines['target'] = (lines['character'] == character).astype(int)
-    lines.drop('character', axis=1, inplace=True)
-    project = dr.Project.start(lines,
+    lines_for_character = lines.copy()
+    lines_for_character['target'] = (lines_for_character['character'] == character).astype(int)
+    lines_for_character.drop('character', axis=1, inplace=True)
+    project = dr.Project.start(lines_for_character,
                                project_name=character,
                                target='target',
                                worker_count=-1)
@@ -21,3 +22,4 @@ for character in CHARACTERS:
     projects[character] = project.id
 import pdb
 pdb.set_trace()
+
