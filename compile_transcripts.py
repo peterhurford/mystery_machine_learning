@@ -1,6 +1,8 @@
 import os
 import re
 
+import pandas as pd
+
 from collections import defaultdict
 
 from utils import CHARACTERS
@@ -61,3 +63,7 @@ with open('scooby_doo_lines.csv', 'w') as outfile:
     for character in CHARACTERS:
         for statement in statements[character]:
             outfile.write('{},{}\n'.format(character, statement))
+
+lines = pd.read_csv('scooby_doo_lines.csv')
+print('Have {} lines...'.format(lines.shape[0]))
+print(lines['character'].value_counts())
