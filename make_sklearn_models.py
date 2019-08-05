@@ -2,23 +2,17 @@ import numpy as np
 import pandas as pd
 
 from collections import defaultdict
-from datetime import datetime
-from pprint import pprint
-from joblib import dump, load
+from joblib import dump
 
 from sklearn.metrics import roc_auc_score, confusion_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.linear_model import LogisticRegression
 
-from utils import CHARACTERS, remove_parentheticals, clean_punct
+from utils import CHARACTERS, print_step
 
 
 HOLDOUT = False
-
-
-def print_step(step):
-    print('[{}]'.format(datetime.now()) + ' ' + step)
 
 
 lines = pd.read_csv('scooby_doo_lines.csv')
@@ -80,23 +74,11 @@ for character in CHARACTERS:
         all_test_preds[character] = character_test_preds
 
 
-def predict_character(text):
-    text = remove_parentheticals(text)
-    text = clean_punct(text)
-    text = tfidf.transform([text])
-    preds = defaultdict(lambda: 0)
-    for character in CHARACTERS:
-        preds[character] = models[character].predict_proba(text)[:, 1][0]
-    sumx = sum(preds.values())
-    for character in CHARACTERS:
-        preds[character] /= sumx
-    return preds
-
-def show_me(result):
-    pprint(sorted(list(result.items()), key=lambda x: x[1], reverse=True))
-
-import pdb
-pdb.set_trace()
+print_step('Saving TFIDF...')
+dump(tfidf, 'cache/tfidf.joblib')
+for character in CHARACTERS:
+    print_step('Saving {} model...'.format(character))
+    dump(models[character], 'cache/{}_model.joblib'.format(character))
 
 
 all_train_preds = pd.DataFrame(all_train_preds)

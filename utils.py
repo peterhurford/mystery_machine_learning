@@ -1,5 +1,7 @@
 import re
 
+from datetime import datetime
+
 
 CHARACTERS = ['Shaggy Rogers', 'Scooby-Doo', 'Fred Jones', 'Daphne Blake', 'Velma Dinkley']
 
@@ -22,3 +24,6 @@ def clean_punct(statement):
                           .replace('\\', '')
                           .replace(',', ''))
     return statement
+
+def print_step(step):
+    print('[{}]'.format(datetime.now()) + ' ' + step)
