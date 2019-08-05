@@ -12,7 +12,14 @@ statements = defaultdict(lambda: [])
 def get_first_name(character):
     return character.split('-')[0].split(' ')[0]
 
-def clean(statement):
+def remove_parentheticals(statement):
+    statement = (re.sub('[\(\[].*?[\)\]]', '', statement)
+                 .replace('  ', ' ')
+                 .replace(' :', ':')
+                 .strip())
+    return statement
+
+def clean_punct(statement):
     statement = (statement.lower()
                           .replace('?', '')
                           .replace('.', '')
@@ -22,9 +29,6 @@ def clean(statement):
                           .replace('\'', '')
                           .replace('\\', '')
                           .replace(',', ''))
-    statement = (re.sub('[\(\[].*?[\)\]]', '', statement)
-                 .replace('  ', ' ')
-                 .strip())
     return statement
 
 
@@ -42,10 +46,11 @@ for line in all_lines:
         alias = get_first_name(character)
         character_string = '{}: '.format(character)
         alias_string = '{}: '.format(alias)
+        line = remove_parentheticals(line)
         if character_string in line or alias_string in line:
             statement = line.replace(character_string, '')
             statement = statement.replace(alias_string, '')
-            statement = clean(statement)
+            statement = clean_punct(statement)
             statements[character].append(statement)
 
 for character in CHARACTERS:
