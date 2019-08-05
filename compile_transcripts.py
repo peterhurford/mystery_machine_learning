@@ -1,4 +1,6 @@
+import os
 import re
+
 from collections import defaultdict
 
 
@@ -25,18 +27,26 @@ def clean(statement):
     return statement
 
 
-with open('transcripts/scooby_doo_and_the_witches_ghost.txt', 'r') as transcript_file:
-    lines = transcript_file.read()
-lines = lines.split('\n')
+transcripts = os.listdir('transcripts')
+all_lines = []
+for transcript in transcripts:
+    with open('transcripts/{}'.format(transcript), 'r') as transcript_file:
+        lines = transcript_file.read()
+    lines = lines.split('\n')
+    all_lines.append(lines)
+all_lines = sum(all_lines, [])
 
 for line in lines:
     for character in CHARACTERS:
         alias = get_first_name(character)
         if character in line or alias in line:
+            # Clean character name from transcript
             statement = line.replace('{}: '.format(character), '')
             statement = statement.replace('{}: '.format(alias), '')
-            statement = clean(statement)
-            statements[character].append(statement)
+
+            if ':' not in statement: # Ignore some compound statements
+                statement = clean(statement)
+                statements[character].append(statement)
 
 for character in CHARACTERS:
     statements[character] = [s for s in statements[character] if s != '']
