@@ -1,11 +1,10 @@
 import os
-import re
 
 import pandas as pd
 
 from collections import defaultdict
 
-from utils import CHARACTERS
+from utils import CHARACTERS, remove_parentheticals, clean_punct
 
 
 statements = defaultdict(lambda: [])
@@ -13,25 +12,6 @@ statements = defaultdict(lambda: [])
 
 def get_first_name(character):
     return character.split('-')[0].split(' ')[0]
-
-def remove_parentheticals(statement):
-    statement = (re.sub('[\(\[].*?[\)\]]', '', statement)
-                 .replace('  ', ' ')
-                 .replace(' :', ':')
-                 .strip())
-    return statement
-
-def clean_punct(statement):
-    statement = (statement.lower()
-                          .replace('?', '')
-                          .replace('.', '')
-                          .replace('!', '')
-                          .replace('"', '')
-                          .replace('-', ' ')
-                          .replace('\'', '')
-                          .replace('\\', '')
-                          .replace(',', ''))
-    return statement
 
 
 transcripts = os.listdir('transcripts')
