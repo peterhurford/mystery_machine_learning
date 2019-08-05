@@ -37,17 +37,16 @@ for transcript in transcripts:
     all_lines.append(lines)
 all_lines = sum(all_lines, [])
 
-for line in lines:
+for line in all_lines:
     for character in CHARACTERS:
         alias = get_first_name(character)
-        if character in line or alias in line:
-            # Clean character name from transcript
-            statement = line.replace('{}: '.format(character), '')
-            statement = statement.replace('{}: '.format(alias), '')
-
-            if ':' not in statement: # Ignore some compound statements
-                statement = clean(statement)
-                statements[character].append(statement)
+        character_string = '{}: '.format(character)
+        alias_string = '{}: '.format(alias)
+        if character_string in line or alias_string in line:
+            statement = line.replace(character_string, '')
+            statement = statement.replace(alias_string, '')
+            statement = clean(statement)
+            statements[character].append(statement)
 
 for character in CHARACTERS:
     statements[character] = [s for s in statements[character] if s != '']
