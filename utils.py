@@ -25,5 +25,8 @@ def clean_punct(statement):
                           .replace(',', ''))
     return statement
 
+def get_first_name(character):
+    return character.split('-')[0].split(' ')[0]
+
 def print_step(step):
     print('[{}]'.format(datetime.now()) + ' ' + step)

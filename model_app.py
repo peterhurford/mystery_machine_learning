@@ -1,3 +1,5 @@
+import eli5
+
 import numpy as np
 
 from flask import Flask, jsonify, request, render_template
@@ -5,7 +7,7 @@ from flask_cors import CORS
 from joblib import load
 from collections import defaultdict
 
-from utils import CHARACTERS, remove_parentheticals, clean_punct, print_step
+from utils import CHARACTERS, remove_parentheticals, clean_punct, print_step, get_first_name
 
 
 def predict_character(text):
@@ -51,3 +53,12 @@ def get_predict(string):
 def post_predict():
     string = request.json['text']
     return jsonify(predict_character(string))
+
+@app.route('/top_features/<character>', methods=['GET'])
+def weights(character):
+    indices = [get_first_name(c).lower() == character for c in CHARACTERS]
+    if not any(indices):
+        return 'Not found'
+    else:
+        character = CHARACTERS[np.argmax(indices)]
+        return eli5.show_weights(models[character], vec=tfidf).data

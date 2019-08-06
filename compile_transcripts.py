@@ -4,14 +4,10 @@ import pandas as pd
 
 from collections import defaultdict
 
-from utils import CHARACTERS, remove_parentheticals, clean_punct
+from utils import CHARACTERS, remove_parentheticals, clean_punct, get_first_name
 
 
 statements = defaultdict(lambda: [])
-
-
-def get_first_name(character):
-    return character.split('-')[0].split(' ')[0]
 
 
 transcripts = os.listdir('transcripts')
