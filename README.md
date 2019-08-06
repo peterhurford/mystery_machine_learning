@@ -26,25 +26,27 @@ Once the models are trained, you can serve them on a Flask app. Run `export FLAS
 
 You can now POST the `predict` API with a `text` parameter and get back predictions.
 
-Output will come back with a `prediction` key that says the character who is most likely to have said `text`. You will also get back a `predictions` key with all the individual probabilities for how likely each character is to have said `text`. Lastly, you will get back the `text` you passed as well.
+Output will come back with a `prediction` key that says the character who is most likely to have said `text` and a `probability` key for the likelihood that the predicted character said `text`. You will also get back a `probabilities` key with all the individual probabilities for how likely each character is to have said `text`. Lastly, you will get back the `text` you passed as well.
 
 ```
 curl -i -X POST http://127.0.0.1:5000/predict -d '{"text":"Jinkies!"}' -H "Content-Type: application/json
 {"prediction":"Velma Dinkley",
- "predictions":{"Daphne Blake":0.06822105721051124,
-                "Fred Jones":0.08190035215124208,
-                "Scooby-Doo":0.0726696931194721,
-                "Shaggy Rogers":0.09287944079667905,
-                "Velma Dinkley":0.6843294567220954},
+ "probability":0.6843294567220954,
+ "probabilities":{"Daphne Blake":0.06822105721051124,
+                  "Fred Jones":0.08190035215124208,
+                  "Scooby-Doo":0.0726696931194721,
+                  "Shaggy Rogers":0.09287944079667905,
+                  "Velma Dinkley":0.6843294567220954},
  "text":"Jinkies!"}
 
 curl -i -X POST http://127.0.0.1:5000/predict -d '{"text":"Zoinks!"}' -H "Content-Type: application/json
 
 {"prediction":"Shaggy Rogers",
- "predictions":{"Daphne Blake":0.06184231582779559,
-                "Fred Jones":0.07819071867107619,
-                "Scooby-Doo":0.07055911654043422,
-                "Shaggy Rogers":0.7192686835595966,
-                "Velma Dinkley":0.0701391654010975},
+ "probability":0.7192686835595966,
+ "probabilities":{"Daphne Blake":0.06184231582779559,
+                  "Fred Jones":0.07819071867107619,
+                  "Scooby-Doo":0.07055911654043422,
+                  "Shaggy Rogers":0.7192686835595966,
+                  "Velma Dinkley":0.0701391654010975},
  "text":"Zoinks!"}
 ```

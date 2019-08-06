@@ -19,7 +19,8 @@ def predict_character(text):
         preds[character] /= sumx
     return {'text': text,
             'prediction': preds.keys()[np.argmax(preds.values())],
-            'predictions': preds}
+			'probability': np.max(preds.values()),
+            'probabilities': preds}
 
 
 print_step('Load TFIDF')
