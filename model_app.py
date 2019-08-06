@@ -37,10 +37,6 @@ CORS(app)
 
 @app.route('/')
 def index():
-    return 'Main page!'
-
-@app.route('/test')
-def testing():
     return render_template('index.html')
 
 @app.route('/ping')
