@@ -65,6 +65,16 @@ def post_predict():
     string = request.json['text']
     return jsonify(predict_character(string))
 
+@app.route('/explain/<string>', methods=['GET'])
+def get_explain(string):
+    prediction = predict_character(string)
+    string = get_text(string)
+    character = prediction['prediction']
+    html = eli5.show_prediction(models[character], string, targets=[1], vec=tfidf).data
+    html = ('<h2>Predicted ' + character + ' (' + str(int(round(prediction['probability'] * 100))) +
+            '%)</h2>' + html)
+    return html
+
 @app.route('/explain', methods=['POST'])
 def post_explain():
     string = request.json['text']
