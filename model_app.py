@@ -62,7 +62,7 @@ def ping():
 def get_predict(string):
     return jsonify(predict_character(string))
 
-@app.route('/predict/<character>', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def post_predict():
     string = request.json['text']
     return jsonify(predict_character(string))
