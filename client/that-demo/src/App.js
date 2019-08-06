@@ -32,7 +32,7 @@ function App() {
         console.log(res.data);
       });
     axios
-      .post("http://127.0.0.1:5000/explain", {
+      .post("https://mystery-machine-learning-api.herokuapp.com/explain", {
         text: textToPredict
       })
       .then(res => {
