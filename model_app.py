@@ -70,7 +70,8 @@ def explain():
     prediction = predict_character(string)
     character = prediction['prediction']
     explanation = eli5.explain_prediction(models[character], string, targets=[1, 0], vec=tfidf)
-    explanation = explanation.targets[0].feature_weights.pos
+    explanation = explanation.targets[0].feature_weights
+    explanation = explanation.pos + explanation.neg
     explanation = [(f.feature, f.weight) for f in explanation]
     return jsonify({'prediction': character,
                     'probability': prediction['probability'],
