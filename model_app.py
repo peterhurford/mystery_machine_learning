@@ -10,10 +10,13 @@ from collections import defaultdict
 from utils import CHARACTERS, remove_parentheticals, clean_punct, print_step, get_first_name
 
 
-def predict_character(text):
+def get_tfidf(text):
     t_text = remove_parentheticals(text)
     t_text = clean_punct(t_text)
-    tfidf_text = tfidf.transform([t_text])
+    return tfidf.transform([t_text])
+
+def predict_character(text):
+    tfidf_text = get_tfidf(text)
     preds = defaultdict(lambda: 0)
     for character in CHARACTERS:
         preds[character] = models[character].predict_proba(tfidf_text)[:, 1][0]
@@ -22,8 +25,15 @@ def predict_character(text):
         preds[character] /= sumx
     return {'text': text,
             'prediction': list(preds.keys())[np.argmax(list(preds.values()))],
-			'probability': np.max(list(preds.values())),
+            'probability': np.max(list(preds.values())),
             'probabilities': preds}
+
+def get_character_from_name(character):
+    indices = [get_first_name(c).lower() == character for c in CHARACTERS]
+    if not any(indices):
+        return 'Not found'
+    else:
+        return CHARACTERS[np.argmax(indices)]
 
 
 print_step('Load TFIDF')
@@ -47,18 +57,27 @@ def ping():
 
 @app.route('/predict/<string>', methods=['GET'])
 def get_predict(string):
-	return jsonify(predict_character(string))
+    return jsonify(predict_character(string))
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict/<character>', methods=['POST'])
 def post_predict():
     string = request.json['text']
     return jsonify(predict_character(string))
 
+@app.route('/explain', methods=['POST'])
+def explain():
+    string = request.json['text']
+    prediction = predict_character(string)
+    character = prediction['prediction']
+    explanation = eli5.explain_prediction(models[character], string, targets=[1, 0], vec=tfidf)
+    explanation = explanation.targets[0].feature_weights.pos
+    explanation = [(f.feature, f.weight) for f in explanation]
+    return jsonify({'prediction': character,
+                    'probability': prediction['probability'],
+                    'text': string,
+                    'explanation': dict(explanation)})
+
 @app.route('/top_features/<character>', methods=['GET'])
 def weights(character):
-    indices = [get_first_name(c).lower() == character for c in CHARACTERS]
-    if not any(indices):
-        return 'Not found'
-    else:
-        character = CHARACTERS[np.argmax(indices)]
-        return eli5.show_weights(models[character], vec=tfidf).data
+    character = get_character_from_name(character)
+    return eli5.show_weights(models[character], vec=tfidf).data
