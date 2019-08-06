@@ -38,6 +38,10 @@ for line in all_lines:
 for character in CHARACTERS:
     statements[character] = [s for s in statements[character] if s != '']
 
+# Manually append "Let's split up, gang!" to Fred.
+statements['Fred Jones'].append('lets split up gang')
+
+
 with open('scooby_doo_lines.csv', 'w') as outfile:
     outfile.write('character,line\n')
     for character in CHARACTERS:
