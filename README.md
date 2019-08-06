@@ -10,11 +10,13 @@ Make your [appropriate Python virtualenv](https://pypi.org/project/virtualenv/) 
 
 #### Collect the data
 
-[Optional] Run `compile_transcripts.py` to compile the dataset. Source transcripts are in the `transcirpts` directory.
+[Optional] Run `python compile_transcripts.py` to compile the dataset. Source transcripts are in the `transcirpts` directory.
 
 #### Train the Models
 
-Run `python make_sklearn_models.py` to train the models. They will create models as `.joblib` files that live in the `cache` directory.
+Create an empty cache directory to store models (`mkdir cache`).
+
+Then run `python make_sklearn_models.py` to train the models. They will create models as `.joblib` files that live in the `cache` directory.
 
 #### Run the Flask App
 
