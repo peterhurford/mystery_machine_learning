@@ -1,6 +1,6 @@
 import numpy as np
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from joblib import load
 from collections import defaultdict
@@ -32,12 +32,16 @@ for character in CHARACTERS:
     models[character] = load('cache/{}_model.joblib'.format(character))
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="build/static", template_folder="build")
 CORS(app)
 
 @app.route('/')
 def index():
     return 'Main page!'
+
+@app.route('/test')
+def testing():
+    return render_template('index.html')
 
 @app.route('/ping')
 def ping():
