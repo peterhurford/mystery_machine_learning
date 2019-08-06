@@ -24,7 +24,7 @@ function App() {
 
   function predictWhoSaidIt() {
     axios
-      .post("https://mystery-machine-learning-api.herokuapp.com/predict", {
+      .post("/predict", {
         text: textToPredict
       })
       .then(res => {
@@ -32,7 +32,7 @@ function App() {
         console.log(res.data);
       });
     axios
-      .post("https://mystery-machine-learning-api.herokuapp.com/explain", {
+      .post("/explain", {
         text: textToPredict
       })
       .then(res => {
