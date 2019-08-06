@@ -1,6 +1,7 @@
 import numpy as np
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from joblib import load
 from collections import defaultdict
 
@@ -30,7 +31,9 @@ for character in CHARACTERS:
     print_step('Loading {} model...'.format(character))
     models[character] = load('cache/{}_model.joblib'.format(character))
 
+
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():
