@@ -18,9 +18,21 @@ Create an empty cache directory to store models (`mkdir cache`).
 
 Then run `python make_sklearn_models.py` to train the models. They will create models as `.joblib` files that live in the `cache` directory.
 
+#### Start the front end
+
+Compile the React front-end to run with Flask!
+
+```
+cd client/that-demo
+npm run build
+cd ../.. # Go back to root to start the Flask app
+```
+
 #### Run the Flask App
 
 Once the models are trained, you can serve them on a Flask app. Run `export FLASK_APP=model_app.py; flask run` to launch the app.
+
+You can play directly with the front end or you can make API calls (see below).
 
 #### Make requests to the API
 
@@ -50,15 +62,3 @@ curl -i -X POST http://127.0.0.1:5000/predict -d '{"text":"Zoinks!"}' -H "Conten
                   "Velma Dinkley":0.0701391654010975},
  "text":"Zoinks!"}
 ```
-
-#### Run the front end
-
-Run a front-end!
-
-```
-cd client/that-demo
-npm install
-npm start
-```
-
-Play with the app!
