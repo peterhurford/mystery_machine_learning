@@ -4,7 +4,7 @@ import pandas as pd
 from collections import defaultdict
 from joblib import dump
 
-from sklearn.metrics import roc_auc_score, confusion_matrix
+from sklearn.metrics import roc_auc_score, confusion_matrix, accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import KFold, train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -48,7 +48,8 @@ models = defaultdict(lambda: '')
 for character in CHARACTERS:
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
     fold_splits = kf.split(tfidf_train)
-    cv_scores = []
+    auc_scores = []
+    accuracy_scores = []
     character_train_preds = np.zeros(tfidf_train.shape[0])
     character_test_preds = 0
     i = 1
@@ -61,12 +62,15 @@ for character in CHARACTERS:
         model.fit(dev_X, dev_y)
         val_preds = model.predict_proba(val_X)[:, 1]
         character_train_preds[val_index] = val_preds
-        cv_scores.append(roc_auc_score(val_y, val_preds))
+        auc_scores.append(roc_auc_score(val_y, val_preds))
+        accuracy_scores.append(accuracy_score(np.round(val_y) == 0, np.round(val_preds) == 0))
         if HOLDOUT:
             test_preds = model.predict_proba(tfidf_test)[:, 1]
             character_test_preds = character_test_preds + test_preds
         i += 1
-    print_step('...{} AUC: {}'.format(character, np.mean(cv_scores)))
+    print_step('...{} Accuracy: {}, AUC: {}'.format(character,
+                                                    np.round(np.mean(accuracy_scores), 3),
+                                                    np.round(np.mean(auc_scores), 3)))
     all_train_preds[character] = character_train_preds
     models[character] = model
     if HOLDOUT:
