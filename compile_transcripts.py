@@ -34,8 +34,11 @@ for line in all_lines:
 for character in CHARACTERS:
     statements[character] = [s for s in statements[character] if s != '']
 
-# Manually append "Let's split up, gang!" to Fred.
+# Manually append some famous lines that didn't appear in transcripts,
+# so as to not dissapoint the crowd...
 statements['Fred Jones'].append('lets split up gang')
+statements['Velma Dinkley'].append('my glasses i cant see without my glasses')
+statements['Velma Dinkley'].append('i cant find my glasses')
 
 
 with open('scooby_doo_lines.csv', 'w') as outfile:
