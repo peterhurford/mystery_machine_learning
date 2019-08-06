@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.747aacdc.chunk.css",
+    "main.css": "/static/css/main.23d1c0db.chunk.css",
     "main.js": "/static/js/main.f1bbbd06.chunk.js",
     "main.js.map": "/static/js/main.f1bbbd06.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
@@ -8,9 +8,9 @@
     "static/js/2.f6ee7308.chunk.js": "/static/js/2.f6ee7308.chunk.js",
     "static/js/2.f6ee7308.chunk.js.map": "/static/js/2.f6ee7308.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.b9e0f3d4631c95315b28b49bcf6bd874.js": "/precache-manifest.b9e0f3d4631c95315b28b49bcf6bd874.js",
+    "precache-manifest.0a71482e56495b1aadc77cb6bd9fbe0f.js": "/precache-manifest.0a71482e56495b1aadc77cb6bd9fbe0f.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.747aacdc.chunk.css.map": "/static/css/main.747aacdc.chunk.css.map",
+    "static/css/main.23d1c0db.chunk.css.map": "/static/css/main.23d1c0db.chunk.css.map",
     "static/media/Daphne_Blake.png": "/static/media/Daphne_Blake.d440af57.png",
     "static/media/Scooby_Doo.png": "/static/media/Scooby_Doo.345950e8.png",
     "static/media/Shaggy_Rogers.png": "/static/media/Shaggy_Rogers.75ea70d7.png",
