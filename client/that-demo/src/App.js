@@ -22,7 +22,9 @@ function App() {
 
   function predictWhoSaidIt() {
     axios
-      .post("http://127.0.0.1:5000/predict", { text: textToPredict })
+      .post("https://mystery-machine-learning-api.herokuapp.com/predict", {
+        text: textToPredict
+      })
       .then(res => {
         setData(res.data);
         console.log(res);
