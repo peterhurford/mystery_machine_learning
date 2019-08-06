@@ -10,13 +10,14 @@ from collections import defaultdict
 from utils import CHARACTERS, remove_parentheticals, clean_punct, print_step, get_first_name
 
 
-def get_tfidf(text):
+def get_text(text):
     t_text = remove_parentheticals(text)
     t_text = clean_punct(t_text)
-    return tfidf.transform([t_text])
+    return t_text
 
 def predict_character(text):
-    tfidf_text = get_tfidf(text)
+    t_text = get_text(text)
+    tfidf_text = tfidf.transform([t_text])
     preds = defaultdict(lambda: 0)
     for character in CHARACTERS:
         preds[character] = models[character].predict_proba(tfidf_text)[:, 1][0]
@@ -65,11 +66,12 @@ def post_predict():
     return jsonify(predict_character(string))
 
 @app.route('/explain', methods=['POST'])
-def explain():
+def post_explain():
     string = request.json['text']
+    string = get_text(string)
     prediction = predict_character(string)
     character = prediction['prediction']
-    explanation = eli5.explain_prediction(models[character], string, targets=[1, 0], vec=tfidf)
+    explanation = eli5.explain_prediction(models[character], string, targets=[1], vec=tfidf)
     explanation = explanation.targets[0].feature_weights
     explanation = explanation.pos + explanation.neg
     explanation = [(f.feature, f.weight) for f in explanation if f.feature != '<BIAS>']
