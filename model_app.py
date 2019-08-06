@@ -45,7 +45,9 @@ for character in CHARACTERS:
     models[character] = load('cache/{}_model.joblib'.format(character))
 
 
-app = Flask(__name__, static_folder='client/that-demo/build/static', template_folder='build')
+app = Flask(__name__,
+            static_folder='client/that-demo/build/static',
+            template_folder='client/that-demo/build')
 CORS(app)
 
 @app.route('/')
