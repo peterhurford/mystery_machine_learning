@@ -110,5 +110,3 @@ if HOLDOUT:
                                 all_test_preds['prediction'],
                                 labels=CHARACTERS)
     print(pd.DataFrame(conf_mat, columns=CHARACTERS, index=CHARACTERS))
-import pdb
-pdb.set_trace()
