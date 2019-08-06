@@ -37,11 +37,14 @@ for character in CHARACTERS:
 # Manually append some famous lines that didn't appear in transcripts,
 # so as to not dissapoint the crowd...
 statements['Fred Jones'].append('lets split up gang')
-statements['Fred Jones'].append('Hold the phone')
-statements['Fred Jones'].append('Light it up')
+statements['Fred Jones'].append('hold the phone')
+statements['Fred Jones'].append('light it up')
 statements['Velma Dinkley'].append('my glasses i cant see without my glasses')
 statements['Velma Dinkley'].append('i cant find my glasses')
 
+# Add more weight on these examples to patch the model a bit more
+statements['Fred Jones'].append('lets split up')
+statements['Fred Jones'].append('hold the phone')
 
 with open('scooby_doo_lines.csv', 'w') as outfile:
     outfile.write('character,line\n')
