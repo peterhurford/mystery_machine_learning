@@ -1,6 +1,6 @@
 import numpy as np
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from joblib import load
 from collections import defaultdict
 
@@ -39,6 +39,11 @@ def index():
 def ping():
     return 'Pong'
 
-@app.route('/predict/<string>')
-def predict(string):
+@app.route('/predict/<string>', methods=['GET'])
+def get_predict(string):
+	return jsonify(predict_character(string))
+
+@app.route('/predict', methods=['POST'])
+def post_predict():
+    string = request.json['text']
     return jsonify(predict_character(string))
