@@ -19,8 +19,8 @@ def predict_character(text):
     for character in CHARACTERS:
         preds[character] /= sumx
     return {'text': text,
-            'prediction': preds.keys()[np.argmax(preds.values())],
-			'probability': np.max(preds.values()),
+            'prediction': list(preds.keys())[np.argmax(list(preds.values()))],
+			'probability': np.max(list(preds.values())),
             'probabilities': preds}
 
 

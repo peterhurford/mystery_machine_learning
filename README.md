@@ -50,3 +50,15 @@ curl -i -X POST http://127.0.0.1:5000/predict -d '{"text":"Zoinks!"}' -H "Conten
                   "Velma Dinkley":0.0701391654010975},
  "text":"Zoinks!"}
 ```
+
+#### Run the front end
+
+Run a front-end!
+
+```
+cd client/that-demo
+npm install
+npm start
+```
+
+Play with the app!
