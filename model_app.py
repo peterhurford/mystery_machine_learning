@@ -72,7 +72,7 @@ def explain():
     explanation = eli5.explain_prediction(models[character], string, targets=[1, 0], vec=tfidf)
     explanation = explanation.targets[0].feature_weights
     explanation = explanation.pos + explanation.neg
-    explanation = [(f.feature, f.weight) for f in explanation]
+    explanation = [(f.feature, f.weight) for f in explanation if f.feature != '<BIAS>']
     return jsonify({'prediction': character,
                     'probability': prediction['probability'],
                     'text': string,
