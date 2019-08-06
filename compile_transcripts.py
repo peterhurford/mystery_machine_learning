@@ -37,6 +37,8 @@ for character in CHARACTERS:
 # Manually append some famous lines that didn't appear in transcripts,
 # so as to not dissapoint the crowd...
 statements['Fred Jones'].append('lets split up gang')
+statements['Fred Jones'].append('Hold the phone')
+statements['Fred Jones'].append('Light it up')
 statements['Velma Dinkley'].append('my glasses i cant see without my glasses')
 statements['Velma Dinkley'].append('i cant find my glasses')
 
