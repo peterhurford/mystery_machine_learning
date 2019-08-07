@@ -144,7 +144,11 @@ function App() {
                             .map((word, i) => (
                               <tr key={`${word.name}-${i}`}>
                                 <td className="person-name">{word.name}</td>
-                                <td className="person-score">{word.score} %</td>
+                                <td className="person-score">
+                                  {word.score > 0
+                                    ? `+${word.score}`
+                                    : word.score}{" "}
+                                </td>
                               </tr>
                             ))}
                       </tbody>
