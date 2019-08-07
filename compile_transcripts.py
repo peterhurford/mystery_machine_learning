@@ -39,6 +39,8 @@ for character in CHARACTERS:
 statements['Fred Jones'].append('lets split up gang')
 statements['Fred Jones'].append('hold the phone')
 statements['Fred Jones'].append('light it up')
+statements['Fred Jones'].append('light them up')
+statements['Fred Jones'].append('dang i still dont have a catchphrase')
 statements['Velma Dinkley'].append('my glasses i cant see without my glasses')
 statements['Velma Dinkley'].append('i cant find my glasses')
 
