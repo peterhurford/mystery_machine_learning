@@ -5,8 +5,8 @@
 .App-logo {
   /* animation: App-logo-spin infinite 20s linear; */
   display: flex;
-  margin-top: -5vh;
-  height: 40vmin;
+  max-width: 30%;
+  height: auto;
   /* pointer-events: none; */
 }
 
@@ -21,10 +21,19 @@
   color: white;
 }
 
+.github-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 5vw;
+  filter: invert(100%);
+}
+
 .header {
   margin-bottom: 10vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
 }
 
@@ -52,6 +61,16 @@
   justify-content: center;
 }
 
+.image-container {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.winner-image {
+  width: 100%;
+  height: auto;
+}
+
 .content {
   display: flex;
   flex-direction: row;
@@ -71,13 +90,7 @@
 }
 
 .explanation-header {
-  color: rgba(250, 250, 250, 0.8);
   margin: 25px 0px;
-}
-
-.explanation-header:hover {
-  color: rgba(255, 255, 255, 1);
-  cursor: pointer;
 }
 
 .explanation {
@@ -88,16 +101,12 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.winner-image {
-  width: 25%;
-}
-
 .person-name {
   display: flex;
 }
 
 .person-score {
-  padding-left: 50px;
+  padding-left: 6vw;
 }
 
 .App-link {

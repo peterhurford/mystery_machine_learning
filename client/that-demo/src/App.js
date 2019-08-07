@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { debounce } from "lodash";
 import axios from "axios";
-import * as url from "./mystery_machine.png";
+import logo from "./misc-images/mystery_machine.png";
+import githubLogo from "./misc-images/github-logo.png";
 import Shaggy from "./scooby-doo-characters/Shaggy_Rogers.png";
 import Fred from "./scooby-doo-characters/Fred_Jones.png";
 import Daphne from "./scooby-doo-characters/Daphne_Blake.png";
@@ -15,6 +17,10 @@ const images = {
   "Daphne Blake": Daphne,
   "Scooby-Doo": Scooby
 };
+
+const GITHUB_URL = "https://github.com/peterhurford/mystery_machine_learning";
+
+/* Front end built by @saudapop https://github.com/saudapop 🤓 */
 
 function App() {
   const [data, setData] = useState();
@@ -46,6 +52,13 @@ function App() {
   }
 
   /**
+   * `debounce` let's us only make the api calls after
+   * the user is done typing(300 ms). Otherwise it would execute with
+   * every keystroke.
+   */
+  const setTextDebounced = debounce(setTextToPredict, 300);
+
+  /**
    * This effect says: "whenever the `textToPredict` changes(and if
    * it exists), run our function `predictWhoSaidIt()`"
    */
@@ -53,14 +66,20 @@ function App() {
     if (textToPredict) {
       predictWhoSaidIt();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textToPredict]);
 
   return (
     <div className="App">
       <header className="App-header">
+        <div>
+          <a href={GITHUB_URL}>
+            <img className="github-logo" src={githubLogo} alt="github" />
+          </a>
+        </div>
         <div className="header">
-          Mystery Machine Learning!
-          <img src={url} className="App-logo" alt="logo" />
+          <span>Mystery Machine Learning!</span>
+          <img src={logo} className="App-logo" alt="logo" />
         </div>
 
         <div className="text-preview">
@@ -68,11 +87,8 @@ function App() {
         </div>
         <textarea
           className="text-area"
-          onChange={e => setTextToPredict(e.target.value)}
+          onChange={e => setTextDebounced(e.target.value)}
         />
-
-        {/* <button onClick={predictWhoSaidIt}>Let's find out!</button> */}
-
         {explanations && (
           <div className="content">
             <PredictionsContainer data={data} />
@@ -90,11 +106,13 @@ function PredictionsContainer({ data }) {
       {data && data.prediction && (
         <div className="winner">
           It was probably...
-          <img
-            className="winner-image"
-            src={images[data.prediction]}
-            alt={"winner"}
-          />
+          <div className="image-container">
+            <img
+              className="winner-image"
+              src={images[data.prediction]}
+              alt={"winner"}
+            />
+          </div>
           {data.prediction}!
         </div>
       )}
@@ -125,8 +143,6 @@ function PredictionsContainer({ data }) {
 }
 
 function ExplanationsContainer({ data, explanations }) {
-  const [isExplanationTableVisible, toggleExplanationTable] = useState(false);
-
   /**
    * This function is used for coloring the words in the word breakdown.
    * it takes the response from `/explain`, locates the word from the results
@@ -149,43 +165,40 @@ function ExplanationsContainer({ data, explanations }) {
   return (
     data && (
       <div className="explanation">
-        <div
-          className="explanation-header"
-          onClick={() => toggleExplanationTable(!isExplanationTableVisible)}
-        >
-          Word breakdown:{" "}
-        </div>
-        {data.text.split(" ").map(word => {
+        <div className="explanation-header">Word breakdown: </div>
+        {data.text.split(" ").map((word, i) => {
           return (
-            <span style={getWordHeatValue(word)} title={explanations[word]}>
+            <span
+              key={`${word}-${i}`}
+              style={getWordHeatValue(word)}
+              title={explanations[word]}
+            >
               {word + " "}
             </span>
           );
         })}
         <div className="data-table">
-          {isExplanationTableVisible && (
-            <table>
-              <tbody>
-                {explanations &&
-                  Object.keys(explanations)
-                    .map(word => {
-                      return {
-                        name: word,
-                        score: (explanations[word] * 100).toFixed(2)
-                      };
-                    })
-                    .sort((a, b) => b.score - a.score)
-                    .map((word, i) => (
-                      <tr key={`${word.name}-${i}`}>
-                        <td className="person-name">{word.name}</td>
-                        <td className="person-score">
-                          {word.score > 0 ? `+${word.score}` : word.score}{" "}
-                        </td>
-                      </tr>
-                    ))}
-              </tbody>
-            </table>
-          )}
+          <table>
+            <tbody>
+              {explanations &&
+                Object.keys(explanations)
+                  .map(word => {
+                    return {
+                      name: word,
+                      score: (explanations[word] * 100).toFixed(2)
+                    };
+                  })
+                  .sort((a, b) => b.score - a.score)
+                  .map((word, i) => (
+                    <tr key={`${word.name}-${i}`}>
+                      <td className="person-name">{word.name}</td>
+                      <td className="person-score">
+                        {word.score > 0 ? `+${word.score}` : word.score}{" "}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
         </div>
       </div>
     )
