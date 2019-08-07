@@ -23,10 +23,13 @@
 
 .header {
   margin-bottom: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .text-preview {
-  font-size: 20px;
+  font-size: 2.5vw;
   max-width: 80vw;
 }
 
@@ -44,7 +47,7 @@
 
 .winner,
 .data-table {
-  margin-top: 25px;
+  margin: 25px 0px;
   display: flex;
   justify-content: center;
 }
@@ -60,6 +63,7 @@
   flex-direction: column;
   align-items: center;
   align-self: flex-start;
+  font-size: 2.5vw;
   border-radius: 10px;
   width: 40vw;
   background-color: rgba(0, 0, 0, 0.2);
@@ -68,7 +72,7 @@
 
 .explanation-header {
   color: rgba(250, 250, 250, 0.8);
-  margin-top: 25px;
+  margin: 25px 0px;
 }
 
 .explanation-header:hover {
@@ -79,6 +83,7 @@
 .explanation {
   align-self: flex-start;
   width: 40vw;
+  font-size: 2.5vw;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.2);
 }
