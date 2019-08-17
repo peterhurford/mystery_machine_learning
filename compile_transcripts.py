@@ -43,6 +43,8 @@ statements['Fred Jones'].append('light them up')
 statements['Fred Jones'].append('dang i still dont have a catchphrase')
 statements['Velma Dinkley'].append('my glasses i cant see without my glasses')
 statements['Velma Dinkley'].append('i cant find my glasses')
+statements['Scooby-Doo'].append('rog rwhere')
+statements['Scooby-Doo'].append('rut roh')
 
 # Add more weight on these examples to patch the model a bit more
 statements['Fred Jones'].append('lets split up')
