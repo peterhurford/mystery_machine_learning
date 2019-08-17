@@ -18,9 +18,9 @@ Create an empty cache directory to store models (`mkdir cache`).
 
 Then run `python make_sklearn_models.py` to train the models. They will create models as `.joblib` files that live in the `cache` directory.
 
-#### Build shortcut
+#### Run the app(shortcut)
 
-Run `./build.sh` script to skip the next two steps(compiling the front end and running the flask app.) To make front end changes see the readme in `client/that-demo`.
+Run `./build.sh` script to skip the next two steps(compiling the front end and running the flask app.)
 
 #### Compile the front end
 
