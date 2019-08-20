@@ -10,7 +10,7 @@ Make your [appropriate Python virtualenv](https://pypi.org/project/virtualenv/) 
 
 #### Collect the data
 
-[Optional] Run `python compile_transcripts.py` to compile the dataset. Source transcripts are in the `transcirpts` directory.
+[Optional] Run `python compile_transcripts.py` to compile the dataset. Source transcripts are in the `transcripts` directory.
 
 #### Train the Models
 
@@ -18,7 +18,11 @@ Create an empty cache directory to store models (`mkdir cache`).
 
 Then run `python make_sklearn_models.py` to train the models. They will create models as `.joblib` files that live in the `cache` directory.
 
-#### Start the front end
+#### Run the app(shortcut)
+
+Run `./build.sh` script to skip the next two steps(compiling the front end and running the flask app.)
+
+#### Compile the front end
 
 Compile the React front-end to run with Flask!
 

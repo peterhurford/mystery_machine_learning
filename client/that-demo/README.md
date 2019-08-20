@@ -12,8 +12,4 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-The api calls in the app point to relative endpoints. If you want to play around with the build in dev mode you'll need to prefix each endpoint with `https://mystery-machine-learning-api.herokuapp.com/`.
-
-OR
-
-If you would rather launch from the flask app, after you make changes just run `./build.sh` from the project root, it will make a new build and then launch the flask app.
+API calls are proxied to the flask app so make sure it is running while the react app is also running.
