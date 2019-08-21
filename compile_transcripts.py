@@ -46,6 +46,7 @@ statements['Velma Dinkley'].append('i cant find my glasses')
 statements['Scooby-Doo'].append('rog rwhere')
 statements['Scooby-Doo'].append('rut roh')
 statements['Scooby-Doo'].append('ruh roh')
+statements['Scooby-Doo'].append('rutroh')
 statements['Scooby-Doo'].append('ruhroh')
 
 # Add more weight on these examples to patch the model a bit more
